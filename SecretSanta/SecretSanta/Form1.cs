@@ -95,7 +95,7 @@ namespace SecretSanta
             toSend = results.Count;
             foreach (DrawingResult result in results)
             {
-                SendGmail(txtEmail.Text, txtPassword.Text, result.Giver.Email, "Secret Santa 2016", result.Message);
+                SendGmail(txtEmail.Text, txtPassword.Text, result.Giver.Email, "Secret Santa " + DateTime.Now.Year.ToString(), result.Message);
             }
         }
     }
@@ -164,6 +164,7 @@ namespace SecretSanta
             {
                 return
                     "Dear " + Giver.Name + "," + Environment.NewLine +
+                    Environment.NewLine +
                     "You drew " + Receiver.Name + " for the Secret Santa Gift Exchange!" + Environment.NewLine +
                     (Receiver.Wishlist.Trim().Length == 0 ? "" : "To get some gift ideas you can check out their wishlist here: " + Receiver.Wishlist + Environment.NewLine) +
                     Environment.NewLine +
