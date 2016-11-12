@@ -22,7 +22,6 @@ namespace SecretSanta
             txtPassword.PasswordChar = '\u2744';
         }
 
-        static bool mailSent = false;
         private static void SendCompletedCallback(object sender, AsyncCompletedEventArgs e)
         {
             // Get the unique identifier for this asynchronous operation.
@@ -39,15 +38,6 @@ namespace SecretSanta
             else
             {
                 MessageBox.Show("Message sent.");
-            }
-            mailSent = true;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            foreach(DrawingResult result in DrawingResult.PerfrormDrawings(Participant.ParseParticipants(txtParticipants.Text)))
-            {
-                SendGmail(txtEmail.Text, txtPassword.Text, result.Giver.Email, "Secret Santa 2016", result.Message);
             }
         }
 
@@ -84,6 +74,14 @@ namespace SecretSanta
             // Clean up.
             //message.Dispose();
             //Console.WriteLine("Goodbye.");
+        }
+
+        private void runToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (DrawingResult result in DrawingResult.PerfrormDrawings(Participant.ParseParticipants(txtParticipants.Text)))
+            {
+                SendGmail(txtEmail.Text, txtPassword.Text, result.Giver.Email, "Secret Santa 2016", result.Message);
+            }
         }
     }
 
