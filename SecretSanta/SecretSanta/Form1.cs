@@ -161,7 +161,17 @@ namespace SecretSanta
         {
             get
             {
-                return Giver.Name + ", you drew " + Receiver.Name + "!";
+                return
+                    "Dear " + Giver.Name + "," + Environment.NewLine +
+                    "You drew " + Receiver.Name + " for the Secret Santa Gift Exchange!" + Environment.NewLine +
+                    (Receiver.Wishlist.Trim().Length == 0 ? "" : "To get some gift ideas you can check out their wishlist here: " + Receiver.Wishlist + Environment.NewLine) +
+                    Environment.NewLine +
+                    "Merry Christmas!" + Environment.NewLine +
+                    "-Secret Santa" + Environment.NewLine +
+                    Environment.NewLine +
+                    Environment.NewLine +
+                    "P.S. If you'd like to see the code that performed this drawing, you can see it here:" + Environment.NewLine +
+                    @"https://github.com/bethune-bryant/SecretSanta/blob/master/SecretSanta/SecretSanta/Form1.cs";
             }
         }
 
