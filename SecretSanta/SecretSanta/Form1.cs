@@ -17,7 +17,7 @@ namespace SecretSanta
 {
     public partial class Form1 : Form
     {
-        public Form1(string participantFileName, int seed)
+        public Form1(string participantFileName, int seed, string gmail, string password)
         {
             InitializeComponent();
             this.lblStatus.Text = "";
@@ -29,13 +29,15 @@ namespace SecretSanta
             }
             DrawingResult.rand = new Random(seed);
             this.lblStatus.Text += " Seed: " + seed;
+            this.txtEmail.Text = gmail;
+            this.txtPassword.Text = password;
         }
 
         public Form1() : this("") { }
 
-        public Form1(int seed) : this("", seed) { }
+        public Form1(int seed) : this("", seed, "", "") { }
 
-        public Form1(string participantFileName) : this(participantFileName, (int)DateTime.Now.TimeOfDay.TotalMilliseconds) { }
+        public Form1(string participantFileName) : this(participantFileName, (int)DateTime.Now.TimeOfDay.TotalMilliseconds, "", "") { }
 
         private static void SendCompletedCallback(object sender, AsyncCompletedEventArgs e)
         {
@@ -120,7 +122,7 @@ namespace SecretSanta
             List<string> info = new List<string>(Entry.Split(",".ToCharArray()));
             this.Name = info[0];
             this.Email = info[1];
-            this.Wishlist = info[2];
+            this.Wishlist = info.Count == 3 ? info[2] : "";
         }
 
         public override int GetHashCode()
@@ -147,7 +149,7 @@ namespace SecretSanta
 
     public class DrawingResult
     {
-        public static Random rand;
+        public static Random rand = new Random();
 
         public Participant Giver { get; set; }
         public Participant Receiver { get; set; }

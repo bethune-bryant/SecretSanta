@@ -16,7 +16,13 @@ namespace SecretSanta
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+
+            string filename = args.Count() > 0 ? args[0] : "";
+            string email = args.Count() > 1 ? args[1] : "";
+            string password = args.Count() > 2 ? args[2] : "";
+            int seed = args.Count() > 3 ? int.Parse(args[3]) : (int)DateTime.Now.TimeOfDay.TotalMilliseconds;
+
+            Application.Run(new Form1(filename, seed, email, password));
         }
     }
 }

@@ -21,9 +21,9 @@ namespace SecretSanta.Tests
             for(int i = 1; i<= count; i++)
             {
                 string name = "Tester Test" + i;
-                string email = "tester" + i + ".test@email.com";
-                string wishlist = i % 2 == 0 ? "" : "wishlist" + i + ".amazon.com/wishlist";
-                input.AppendLine(name + "," + email + "," + wishlist);
+                string email = ",tester" + i + ".test@email.com";
+                string wishlist = i % 2 == 0 ? "" : ",wishlist" + i + ".amazon.com/wishlist";
+                input.AppendLine(name + email + wishlist);
             }
 
             List<Participant> result = Participant.ParseParticipants(input.ToString());
