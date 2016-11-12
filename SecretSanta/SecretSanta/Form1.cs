@@ -11,16 +11,31 @@ using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Threading;
+using System.IO;
 
 namespace SecretSanta
 {
     public partial class Form1 : Form
     {
-        public Form1()
+        public Form1(string participantFileName, int seed)
         {
             InitializeComponent();
-            txtPassword.PasswordChar = '\u2744';
+            this.lblStatus.Text = "";
+            if (File.Exists(participantFileName))
+            {
+                this.txtParticipants.Text = File.ReadAllText(participantFileName);
+
+                this.lblStatus.Text = participantFileName + " loaded.";
+            }
+            DrawingResult.rand = new Random(seed);
+            this.lblStatus.Text += " Seed: " + seed;
         }
+
+        public Form1() : this("") { }
+
+        public Form1(int seed) : this("", seed) { }
+
+        public Form1(string participantFileName) : this(participantFileName, (int)DateTime.Now.TimeOfDay.TotalMilliseconds) { }
 
         private static void SendCompletedCallback(object sender, AsyncCompletedEventArgs e)
         {
@@ -132,6 +147,8 @@ namespace SecretSanta
 
     public class DrawingResult
     {
+        public static Random rand;
+
         public Participant Giver { get; set; }
         public Participant Receiver { get; set; }
 
@@ -154,7 +171,6 @@ namespace SecretSanta
             if (Participants.Count <= 2) throw new ArgumentException("At least 3 participants are needed for a drawing.");
 
             List<DrawingResult> retval = new List<DrawingResult>(Participants.Count);
-            Random rand = new Random();
 
             bool success = false;
             while (!success)

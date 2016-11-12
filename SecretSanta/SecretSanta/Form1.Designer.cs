@@ -71,7 +71,7 @@
             this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
             this.txtPassword.Location = new System.Drawing.Point(3, 16);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '*';
+            this.txtPassword.PasswordChar = '\u2744';
             this.txtPassword.Size = new System.Drawing.Size(631, 29);
             this.txtPassword.TabIndex = 2;
             // 
