@@ -60,6 +60,7 @@ namespace SecretSanta
             {
                 lblStatus.Text = "Sent to " + token;
             }
+            if (sent == toSend) lblStatus.Text = "Sending completed!";
         }
 
         private void SendGmail(string gmail, string password, string toEmail, string subject, string message)
