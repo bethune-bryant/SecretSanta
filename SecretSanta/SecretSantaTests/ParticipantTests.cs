@@ -23,6 +23,7 @@ namespace SecretSanta.Tests
                 string name = "Tester Test" + i;
                 string email = ",tester" + i + ".test@email.com";
                 string wishlist = i % 2 == 0 ? "" : ",wishlist" + i + ".amazon.com/wishlist";
+                string group = i % 2 == 0 ? "" : "," + (i % 5);
                 input.AppendLine(name + email + wishlist);
             }
 

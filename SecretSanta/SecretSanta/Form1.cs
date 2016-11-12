@@ -105,15 +105,17 @@ namespace SecretSanta
         public string Name { get; set; }
         public string Email { get; set; }
         public string Wishlist { get; set; }
+        public string Group { get; set; }
 
-        public Participant(string Name, string Email, string Wishlist)
+        public Participant(string Name, string Email, string Wishlist, string Group)
         {
             this.Name = Name.Trim();
             this.Email = Email.Trim();
             this.Wishlist = Wishlist.Trim();
+            this.Group = Group.Trim();
         }
 
-        public Participant(string Name, string Email) : this(Name, Email, "") { }
+        public Participant(string Name, string Email) : this(Name, Email, "", "") { }
 
         public Participant(string Entry)
         {
@@ -167,6 +169,7 @@ namespace SecretSanta
                     Environment.NewLine +
                     "You drew " + Receiver.Name + " for the Secret Santa Gift Exchange!" + Environment.NewLine +
                     (Receiver.Wishlist.Trim().Length == 0 ? "" : "To get some gift ideas you can check out their wishlist here: " + Receiver.Wishlist + Environment.NewLine) +
+                    "The gift limit is $50." + Environment.NewLine +
                     Environment.NewLine +
                     "Merry Christmas!" + Environment.NewLine +
                     "-Secret Santa" + Environment.NewLine +
