@@ -39,10 +39,14 @@ namespace SecretSanta
 
         public Form1(string participantFileName) : this(participantFileName, (int)DateTime.Now.TimeOfDay.TotalMilliseconds, "", "") { }
 
-        private static void SendCompletedCallback(object sender, AsyncCompletedEventArgs e)
+        static int toSend = 0;
+        static int sent = 0;
+        private void SendCompletedCallback(object sender, AsyncCompletedEventArgs e)
         {
             // Get the unique identifier for this asynchronous operation.
             String token = (string)e.UserState;
+            sent++;
+            progressStatus.Value = (int)((((double)sent) / toSend) * 100);
 
             if (e.Cancelled)
             {
@@ -54,7 +58,7 @@ namespace SecretSanta
             }
             else
             {
-                MessageBox.Show("Message sent.");
+                lblStatus.Text = "Sent to " + token;
             }
         }
 
@@ -80,22 +84,15 @@ namespace SecretSanta
             string userState = toEmail;
             client.SendAsync(messageObj, userState);
 
-            //Console.WriteLine("Sending message... press c to cancel mail. Press any other key to exit.");
-            //string answer = Console.ReadLine();
-            // If the user canceled the send, and mail hasn't been sent yet,
-            // then cancel the pending operation.
-            //if (answer.StartsWith("c") && mailSent == false)
-            //{
-            //    client.SendAsyncCancel();
-            //}
-            // Clean up.
-            //message.Dispose();
-            //Console.WriteLine("Goodbye.");
+            lblStatus.Text = "Sending to " + toEmail;
         }
 
         private void runToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (DrawingResult result in DrawingResult.PerfrormDrawings(Participant.ParseParticipants(txtParticipants.Text)))
+            List<DrawingResult> results = DrawingResult.PerfrormDrawings(Participant.ParseParticipants(txtParticipants.Text));
+            sent = 0;
+            toSend = results.Count;
+            foreach (DrawingResult result in results)
             {
                 SendGmail(txtEmail.Text, txtPassword.Text, result.Giver.Email, "Secret Santa 2016", result.Message);
             }
