@@ -173,8 +173,10 @@ namespace SecretSanta
                     else
                     {
                         List<Participant> possibles = NameHat.Where(x => !x.Equals(drawer))
-                                                             .Where(possible => retval.Where(alreadyDrawn => alreadyDrawn.))
+                                                             .Where(possible => retval.Where(alreadyDrawn => alreadyDrawn.Giver.Equals(possible) && alreadyDrawn.Receiver.Equals(drawer)).Count() == 0) //Prevent 2 person cycles.
                                                              .ToList();
+                        if (possibles.Count == 0) break;
+
                         retval.Add(new DrawingResult(drawer, possibles[rand.Next(0, possibles.Count)]));
                         NameHat.Remove(retval[retval.Count - 1].Receiver);
                     }
