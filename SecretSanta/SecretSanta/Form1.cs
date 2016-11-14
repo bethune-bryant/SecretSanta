@@ -90,12 +90,15 @@ namespace SecretSanta
 
         private void runToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            List<DrawingResult> results = DrawingResult.PerfrormDrawings(Participant.ParseParticipants(txtParticipants.Text));
-            sent = 0;
-            toSend = results.Count;
-            foreach (DrawingResult result in results)
+            if (DialogResult.Yes == MessageBox.Show("Perform a drawing and send the emails?", "Email Confirmation?", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
             {
-                SendGmail(txtEmail.Text, txtPassword.Text, result.Giver.Email, "Secret Santa " + DateTime.Now.Year.ToString(), result.Message);
+                List<DrawingResult> results = DrawingResult.PerfrormDrawings(Participant.ParseParticipants(txtParticipants.Text));
+                sent = 0;
+                toSend = results.Count;
+                foreach (DrawingResult result in results)
+                {
+                    SendGmail(txtEmail.Text, txtPassword.Text, result.Giver.Email, "Secret Santa " + DateTime.Now.Year.ToString(), result.Message);
+                }
             }
         }
 
