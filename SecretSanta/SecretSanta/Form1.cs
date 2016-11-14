@@ -90,27 +90,41 @@ namespace SecretSanta
 
         private void runToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes == MessageBox.Show("Perform a drawing and send the emails?", "Email Confirmation?", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
+            try
             {
-                List<DrawingResult> results = DrawingResult.PerfrormDrawings(Participant.ParseParticipants(txtParticipants.Text));
-                sent = 0;
-                toSend = results.Count;
-                foreach (DrawingResult result in results)
+                if (DialogResult.Yes == MessageBox.Show("Perform a drawing and send the emails?", "Email Confirmation?", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
                 {
-                    SendGmail(txtEmail.Text, txtPassword.Text, result.Giver.Email, "Secret Santa " + DateTime.Now.Year.ToString(), result.Message);
+                    List<DrawingResult> results = DrawingResult.PerfrormDrawings(Participant.ParseParticipants(txtParticipants.Text));
+                    sent = 0;
+                    toSend = results.Count;
+                    foreach (DrawingResult result in results)
+                    {
+                        SendGmail(txtEmail.Text, txtPassword.Text, result.Giver.Email, "Secret Santa " + DateTime.Now.Year.ToString(), result.Message);
+                    }
                 }
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
             }
         }
 
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            List<DrawingResult> results = DrawingResult.PerfrormDrawings(Participant.ParseParticipants(txtParticipants.Text));
-            StringBuilder test = new StringBuilder();
-            foreach (DrawingResult result in results)
+            try
             {
-                test.Append(result.Giver.Email).Append(" => ").AppendLine(result.Receiver.Email);
+                List<DrawingResult> results = DrawingResult.PerfrormDrawings(Participant.ParseParticipants(txtParticipants.Text));
+                StringBuilder test = new StringBuilder();
+                foreach (DrawingResult result in results)
+                {
+                    test.Append(result.Giver.Email).Append(" => ").AppendLine(result.Receiver.Email);
+                }
+                MessageBox.Show(test.ToString(), "Test Results", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             }
-            MessageBox.Show(test.ToString(), "Test Results", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            }
         }
     }
 
@@ -204,8 +218,10 @@ namespace SecretSanta
             List<DrawingResult> retval = new List<DrawingResult>(Participants.Count);
 
             bool success = false;
+            int count = 0;
             while (!success)
             {
+                count++;
                 retval = new List<DrawingResult>(Participants.Count);
                 List<Participant> NameHat = new List<Participant>(Participants);
 
@@ -228,6 +244,7 @@ namespace SecretSanta
                     }
                 }
                 if (NameHat.Count <= 0) success = true;
+                else if (count > 100) throw new Exception("After 100 tries, no valid drawing was found.");
             }
 
 
