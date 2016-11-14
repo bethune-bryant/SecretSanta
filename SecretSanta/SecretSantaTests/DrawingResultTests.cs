@@ -14,11 +14,11 @@ namespace SecretSanta.Tests
         [TestMethod()]
         public void PerfrormDrawingsTest()
         {
-            for (int count = 3; count <= 100; count++)
+            for (int count = 12; count <= 100; count++)
             {
                 List<Participant> inputs = new List<Participant>(count);
 
-                for (int i = 0; i < count; i++) inputs.Add(new Participant("Test" + i, "test" + i + "@email.com"));
+                for (int i = 0; i < count; i++) inputs.Add(new Participant("Test" + i, "test" + i + "@email.com", (i % (count / 3)).ToString()));
 
                 List<DrawingResult> results = DrawingResult.PerfrormDrawings(inputs);
 
@@ -30,6 +30,7 @@ namespace SecretSanta.Tests
                 {
                     Assert.IsTrue(results.Where(x => x.Giver.Equals(result.Receiver) && x.Receiver.Equals(result.Giver)).Count() == 0, "Direct cycle.");
                 }
+                Assert.IsTrue(results.Where(result => result.Giver.Group.Length > 0 && result.Receiver.Group.Equals(result.Giver.Group)).Count() == 0, "Group exclusion.");
             }
         }
     }

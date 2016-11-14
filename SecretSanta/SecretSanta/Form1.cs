@@ -117,12 +117,15 @@ namespace SecretSanta
 
         public Participant(string Name, string Email) : this(Name, Email, "", "") { }
 
+        public Participant(string Name, string Email, string Group) : this(Name, Email, "", Group) { }
+
         public Participant(string Entry)
         {
             List<string> info = new List<string>(Entry.Split(",".ToCharArray()));
             this.Name = info[0];
             this.Email = info[1];
-            this.Wishlist = info.Count == 3 ? info[2] : "";
+            this.Wishlist = info.Count > 2 ? info[2] : "";
+            this.Group = info.Count > 3 ? info[3] : "";
         }
 
         public override int GetHashCode()
@@ -202,6 +205,7 @@ namespace SecretSanta
                     {
                         List<Participant> possibles = NameHat.Where(x => !x.Equals(drawer))
                                                              .Where(possible => retval.Where(alreadyDrawn => alreadyDrawn.Giver.Equals(possible) && alreadyDrawn.Receiver.Equals(drawer)).Count() == 0) //Prevent 2 person cycles.
+                                                             .Where(possible => drawer.Group.Length == 0 || !drawer.Group.Equals(possible.Group)) //Prevent drawing from the same group.
                                                              .ToList();
                         if (possibles.Count == 0) break;
 
