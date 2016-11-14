@@ -98,6 +98,17 @@ namespace SecretSanta
                 SendGmail(txtEmail.Text, txtPassword.Text, result.Giver.Email, "Secret Santa " + DateTime.Now.Year.ToString(), result.Message);
             }
         }
+
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<DrawingResult> results = DrawingResult.PerfrormDrawings(Participant.ParseParticipants(txtParticipants.Text));
+            StringBuilder test = new StringBuilder();
+            foreach (DrawingResult result in results)
+            {
+                test.Append(result.Giver.Email).Append(" => ").AppendLine(result.Receiver.Email);
+            }
+            MessageBox.Show(test.ToString(), "Test Results", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+        }
     }
 
     public class Participant

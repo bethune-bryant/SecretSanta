@@ -32,28 +32,29 @@
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.txtParticipants = new System.Windows.Forms.RichTextBox();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.progressStatus = new System.Windows.Forms.ToolStripProgressBar();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.groupParticipants = new System.Windows.Forms.GroupBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.groupEmail = new System.Windows.Forms.GroupBox();
             this.groupPassword = new System.Windows.Forms.GroupBox();
-            this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupParticipants = new System.Windows.Forms.GroupBox();
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.groupParticipants.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.groupEmail.SuspendLayout();
             this.groupPassword.SuspendLayout();
+            this.groupParticipants.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtEmail
@@ -71,7 +72,7 @@
             this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
             this.txtPassword.Location = new System.Drawing.Point(3, 16);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '\u2744';
+            this.txtPassword.PasswordChar = '❄';
             this.txtPassword.Size = new System.Drawing.Size(631, 29);
             this.txtPassword.TabIndex = 2;
             // 
@@ -95,16 +96,6 @@
             this.statusStrip.TabIndex = 4;
             this.statusStrip.Text = "statusStrip1";
             // 
-            // menuStrip
-            // 
-            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.runToolStripMenuItem});
-            this.menuStrip.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(637, 24);
-            this.menuStrip.TabIndex = 5;
-            this.menuStrip.Text = "menuStrip1";
-            // 
             // progressStatus
             // 
             this.progressStatus.Name = "progressStatus";
@@ -114,6 +105,24 @@
             // 
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(0, 17);
+            // 
+            // menuStrip
+            // 
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.runToolStripMenuItem,
+            this.testToolStripMenuItem});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(637, 24);
+            this.menuStrip.TabIndex = 5;
+            this.menuStrip.Text = "menuStrip1";
+            // 
+            // runToolStripMenuItem
+            // 
+            this.runToolStripMenuItem.Name = "runToolStripMenuItem";
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.runToolStripMenuItem.Text = "Run";
+            this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
@@ -133,17 +142,6 @@
             this.splitContainer1.Size = new System.Drawing.Size(637, 708);
             this.splitContainer1.SplitterDistance = 101;
             this.splitContainer1.TabIndex = 6;
-            // 
-            // groupParticipants
-            // 
-            this.groupParticipants.Controls.Add(this.txtParticipants);
-            this.groupParticipants.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupParticipants.Location = new System.Drawing.Point(0, 0);
-            this.groupParticipants.Name = "groupParticipants";
-            this.groupParticipants.Size = new System.Drawing.Size(637, 603);
-            this.groupParticipants.TabIndex = 4;
-            this.groupParticipants.TabStop = false;
-            this.groupParticipants.Text = "Participants";
             // 
             // splitContainer2
             // 
@@ -184,12 +182,23 @@
             this.groupPassword.TabStop = false;
             this.groupPassword.Text = "Password";
             // 
-            // runToolStripMenuItem
+            // groupParticipants
             // 
-            this.runToolStripMenuItem.Name = "runToolStripMenuItem";
-            this.runToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
-            this.runToolStripMenuItem.Text = "Run";
-            this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
+            this.groupParticipants.Controls.Add(this.txtParticipants);
+            this.groupParticipants.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupParticipants.Location = new System.Drawing.Point(0, 0);
+            this.groupParticipants.Name = "groupParticipants";
+            this.groupParticipants.Size = new System.Drawing.Size(637, 603);
+            this.groupParticipants.TabIndex = 4;
+            this.groupParticipants.TabStop = false;
+            this.groupParticipants.Text = "Participants";
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
+            this.testToolStripMenuItem.Text = "Test";
+            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -210,7 +219,6 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.groupParticipants.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
@@ -219,6 +227,7 @@
             this.groupEmail.PerformLayout();
             this.groupPassword.ResumeLayout(false);
             this.groupPassword.PerformLayout();
+            this.groupParticipants.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -238,6 +247,7 @@
         private System.Windows.Forms.GroupBox groupPassword;
         private System.Windows.Forms.GroupBox groupParticipants;
         private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
     }
 }
 
