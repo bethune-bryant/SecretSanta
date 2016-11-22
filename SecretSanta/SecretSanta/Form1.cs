@@ -43,7 +43,6 @@ namespace SecretSanta
         static int sent = 0;
         private void SendCompletedCallback(object sender, AsyncCompletedEventArgs e)
         {
-            // Get the unique identifier for this asynchronous operation.
             String token = (string)e.UserState;
             sent++;
             progressStatus.Value = (int)((((double)sent) / toSend) * 100);
@@ -201,6 +200,7 @@ namespace SecretSanta
                     "You drew " + Receiver.Name + " for the Secret Santa Gift Exchange!" + Environment.NewLine +
                     (Receiver.Wishlist.Trim().Length == 0 ? "" : "To get some gift ideas you can check out their wishlist here: " + Receiver.Wishlist + Environment.NewLine) +
                     "The gift limit is $50." + Environment.NewLine +
+                    "Remember to keep who you're buying a gift for secret!" + Environment.NewLine +
                     Environment.NewLine +
                     "Merry Christmas!" + Environment.NewLine +
                     "-Secret Santa" + Environment.NewLine +
@@ -222,8 +222,10 @@ namespace SecretSanta
             while (!success)
             {
                 count++;
+                Participants.Shuffle(rand);
                 retval = new List<DrawingResult>(Participants.Count);
                 List<Participant> NameHat = new List<Participant>(Participants);
+                NameHat.Shuffle(rand);
 
                 foreach(Participant drawer in Participants)
                 {
@@ -249,6 +251,22 @@ namespace SecretSanta
 
 
             return retval;
+        }
+    }
+
+    public static class Extensions
+    {
+        public static void Shuffle<T>(this IList<T> list, Random rng)
+        {
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
         }
     }
 }
