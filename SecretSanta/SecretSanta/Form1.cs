@@ -27,6 +27,7 @@ namespace SecretSanta
             this.lblStatus.Text += " Seed: " + seed;
             this.txtEmail.Text = gmail;
             this.txtPassword.Text = password;
+            this.txtMessage.Text = DrawingResult.DefaultMessage;
         }
 
         public Form1() : this("") { }
@@ -94,7 +95,7 @@ namespace SecretSanta
                     toSend = results.Count;
                     foreach (DrawingResult result in results)
                     {
-                        SendGmail(txtEmail.Text, txtPassword.Text, result.Giver.Email, "Secret Santa " + DateTime.Now.Year.ToString(), result.getMessage(txtMessage.Text));
+                        SendGmail(txtEmail.Text, txtPassword.Text, result.Giver.Email, "Secret Santa " + DateTime.Now.Year.ToString(), result.PrepareMessage(txtMessage.Text, txtEmail.Text));
                     }
                 }
             }
@@ -186,27 +187,6 @@ namespace SecretSanta
             this.Receiver = Receiver;
         }
 
-        public string getMessage(string extraMessage)
-        {
-            return
-                "Dear " + Giver.Name + "," + Environment.NewLine +
-                Environment.NewLine +
-                "You drew " + Receiver.Name + " for the Secret Santa Gift Exchange!" + Environment.NewLine +
-                (Receiver.Wishlist.Trim().Length == 0 ? "" : "To get some gift ideas you can check out their wishlist here: " + Receiver.Wishlist + Environment.NewLine) +
-                "The gift limit is $50." + Environment.NewLine +
-                "Remember to keep who you're buying a gift for secret!" + Environment.NewLine +
-                (extraMessage.Trim().Length > 0 ? Environment.NewLine + extraMessage.Trim() + Environment.NewLine : "") +
-                Environment.NewLine +
-                "Merry Christmas!" + Environment.NewLine +
-                "-Secret Santa" + Environment.NewLine +
-                Environment.NewLine +
-                Environment.NewLine +
-                "P.S. If you'd like to see the code that performed this drawing, you can see it here:" + Environment.NewLine +
-                @"https://github.com/bethune-bryant/SecretSanta/blob/master/SecretSanta/SecretSanta/Form1.cs" + Environment.NewLine +
-                Environment.NewLine +
-                "Drawing Seed: " + Seed.ToString();
-        }
-
         public static List<DrawingResult> PerfrormDrawings(List<Participant> Participants)
         {
             if (Participants.Count <= 2) throw new ArgumentException("At least 3 participants are needed for a drawing.");
@@ -225,7 +205,7 @@ namespace SecretSanta
                 List<Participant> NameHat = new List<Participant>(Participants);
                 NameHat.Shuffle(rand);
 
-                foreach(Participant drawer in Participants)
+                foreach (Participant drawer in Participants)
                 {
                     if (NameHat.Count == 1 && NameHat[0].Equals(drawer))
                     {
@@ -247,6 +227,51 @@ namespace SecretSanta
                 else if (count > 100) throw new Exception("After 100 tries, no valid drawing was found.");
             }
 
+
+            return retval;
+        }
+
+        public static string DefaultMessage
+        {
+            get
+            {
+                return
+@"Dear ${GIVER_NAME},
+
+You drew ${RECEIVER_NAME} for the Secret Santa Gift Exchange!
+To get some gift ideas you can check out their wishlist here: ${RECEIVER_WISHLIST}
+The gift limit is $50.
+Remember to keep who you're buying a gift for secret!
+
+Merry Christmas!
+-Secret Santa
+
+P.S. Check the following to make sure they're right, if there are any errors contact ${SENDING_EMAIL}:
+Your email: ${GIVER_EMAIL}
+Your Wishlist: ${GIVER_WISHLIST}
+
+P.P.S. If you'd like to see the code that performed this drawing, you can see it here:
+https://github.com/bethune-bryant/SecretSanta/blob/master/SecretSanta/SecretSanta/Form1.cs
+
+Drawing Seed: ${SEED}";
+            }
+        }
+
+        public string PrepareMessage(string template, string sendingEmail)
+        {
+            string retval = template;
+
+            retval = retval.Replace("${GIVER_NAME}", Giver.Name);
+            retval = retval.Replace("${GIVER_EMAIL}", Giver.Email);
+            retval = retval.Replace("${GIVER_WISHLIST}", Giver.Wishlist.Trim().Length > 0 ? Giver.Wishlist : "(" + Giver.Name + " has no wishlist)");
+
+            retval = retval.Replace("${RECEIVER_NAME}", Receiver.Name);
+            retval = retval.Replace("${RECEIVER_EMAIL}", Receiver.Email);
+            retval = retval.Replace("${RECEIVER_WISHLIST}", Receiver.Wishlist.Trim().Length > 0 ? Receiver.Wishlist : "(" + Receiver.Name + " has no wishlist)");
+
+            retval = retval.Replace("${SEED}", Seed.ToString());
+
+            retval = retval.Replace("${SENDING_EMAIL}", sendingEmail);
 
             return retval;
         }
