@@ -36,12 +36,15 @@
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.groupEmail = new System.Windows.Forms.GroupBox();
             this.groupPassword = new System.Windows.Forms.GroupBox();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.groupMessage = new System.Windows.Forms.GroupBox();
+            this.txtMessage = new System.Windows.Forms.RichTextBox();
             this.groupParticipants = new System.Windows.Forms.GroupBox();
-            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -54,6 +57,11 @@
             this.splitContainer2.SuspendLayout();
             this.groupEmail.SuspendLayout();
             this.groupPassword.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
+            this.groupMessage.SuspendLayout();
             this.groupParticipants.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -81,7 +89,7 @@
             this.txtParticipants.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtParticipants.Location = new System.Drawing.Point(3, 16);
             this.txtParticipants.Name = "txtParticipants";
-            this.txtParticipants.Size = new System.Drawing.Size(631, 584);
+            this.txtParticipants.Size = new System.Drawing.Size(631, 436);
             this.txtParticipants.TabIndex = 3;
             this.txtParticipants.Text = "";
             // 
@@ -124,6 +132,13 @@
             this.runToolStripMenuItem.Text = "Run";
             this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
             // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
+            this.testToolStripMenuItem.Text = "Test";
+            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -138,7 +153,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.groupParticipants);
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer3);
             this.splitContainer1.Size = new System.Drawing.Size(637, 708);
             this.splitContainer1.SplitterDistance = 101;
             this.splitContainer1.TabIndex = 6;
@@ -182,23 +197,54 @@
             this.groupPassword.TabStop = false;
             this.groupPassword.Text = "Password";
             // 
+            // splitContainer3
+            // 
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Name = "splitContainer3";
+            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.groupMessage);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.groupParticipants);
+            this.splitContainer3.Size = new System.Drawing.Size(637, 603);
+            this.splitContainer3.SplitterDistance = 144;
+            this.splitContainer3.TabIndex = 5;
+            // 
+            // groupMessage
+            // 
+            this.groupMessage.Controls.Add(this.txtMessage);
+            this.groupMessage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupMessage.Location = new System.Drawing.Point(0, 0);
+            this.groupMessage.Name = "groupMessage";
+            this.groupMessage.Size = new System.Drawing.Size(637, 144);
+            this.groupMessage.TabIndex = 5;
+            this.groupMessage.TabStop = false;
+            this.groupMessage.Text = "Message";
+            // 
+            // txtMessage
+            // 
+            this.txtMessage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtMessage.Location = new System.Drawing.Point(3, 16);
+            this.txtMessage.Name = "txtMessage";
+            this.txtMessage.Size = new System.Drawing.Size(631, 125);
+            this.txtMessage.TabIndex = 3;
+            this.txtMessage.Text = "";
+            // 
             // groupParticipants
             // 
             this.groupParticipants.Controls.Add(this.txtParticipants);
             this.groupParticipants.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupParticipants.Location = new System.Drawing.Point(0, 0);
             this.groupParticipants.Name = "groupParticipants";
-            this.groupParticipants.Size = new System.Drawing.Size(637, 603);
+            this.groupParticipants.Size = new System.Drawing.Size(637, 455);
             this.groupParticipants.TabIndex = 4;
             this.groupParticipants.TabStop = false;
             this.groupParticipants.Text = "Participants";
-            // 
-            // testToolStripMenuItem
-            // 
-            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
-            this.testToolStripMenuItem.Text = "Test";
-            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -227,6 +273,11 @@
             this.groupEmail.PerformLayout();
             this.groupPassword.ResumeLayout(false);
             this.groupPassword.PerformLayout();
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
+            this.groupMessage.ResumeLayout(false);
             this.groupParticipants.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -248,6 +299,9 @@
         private System.Windows.Forms.GroupBox groupParticipants;
         private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
+        private System.Windows.Forms.SplitContainer splitContainer3;
+        private System.Windows.Forms.GroupBox groupMessage;
+        private System.Windows.Forms.RichTextBox txtMessage;
     }
 }
 

@@ -94,7 +94,7 @@ namespace SecretSanta
                     toSend = results.Count;
                     foreach (DrawingResult result in results)
                     {
-                        SendGmail(txtEmail.Text, txtPassword.Text, result.Giver.Email, "Secret Santa " + DateTime.Now.Year.ToString(), result.Message);
+                        SendGmail(txtEmail.Text, txtPassword.Text, result.Giver.Email, "Secret Santa " + DateTime.Now.Year.ToString(), result.getMessage(txtMessage.Text));
                     }
                 }
             }
@@ -186,26 +186,25 @@ namespace SecretSanta
             this.Receiver = Receiver;
         }
 
-        public string Message
+        public string getMessage(string extraMessage)
         {
-            get
-            {
-                return
-                    "Dear " + Giver.Name + "," + Environment.NewLine +
-                    Environment.NewLine +
-                    "You drew " + Receiver.Name + " for the Secret Santa Gift Exchange!" + Environment.NewLine +
-                    (Receiver.Wishlist.Trim().Length == 0 ? "" : "To get some gift ideas you can check out their wishlist here: " + Receiver.Wishlist + Environment.NewLine) +
-                    "The gift limit is $50." + Environment.NewLine +
-                    "Remember to keep who you're buying a gift for secret!" + Environment.NewLine +
-                    Environment.NewLine +
-                    "Merry Christmas!" + Environment.NewLine +
-                    "-Secret Santa" + Environment.NewLine +
-                    Environment.NewLine +
-                    Environment.NewLine +
-                    "P.S. If you'd like to see the code that performed this drawing, you can see it here:" + Environment.NewLine +
-                    @"https://github.com/bethune-bryant/SecretSanta/blob/master/SecretSanta/SecretSanta/Form1.cs" + Environment.NewLine +
-                    "Drawing Seed: " + Seed.ToString();
-            }
+            return
+                "Dear " + Giver.Name + "," + Environment.NewLine +
+                Environment.NewLine +
+                "You drew " + Receiver.Name + " for the Secret Santa Gift Exchange!" + Environment.NewLine +
+                (Receiver.Wishlist.Trim().Length == 0 ? "" : "To get some gift ideas you can check out their wishlist here: " + Receiver.Wishlist + Environment.NewLine) +
+                "The gift limit is $50." + Environment.NewLine +
+                "Remember to keep who you're buying a gift for secret!" + Environment.NewLine +
+                (extraMessage.Trim().Length > 0 ? Environment.NewLine + extraMessage.Trim() + Environment.NewLine : "") +
+                Environment.NewLine +
+                "Merry Christmas!" + Environment.NewLine +
+                "-Secret Santa" + Environment.NewLine +
+                Environment.NewLine +
+                Environment.NewLine +
+                "P.S. If you'd like to see the code that performed this drawing, you can see it here:" + Environment.NewLine +
+                @"https://github.com/bethune-bryant/SecretSanta/blob/master/SecretSanta/SecretSanta/Form1.cs" + Environment.NewLine +
+                Environment.NewLine +
+                "Drawing Seed: " + Seed.ToString();
         }
 
         public static List<DrawingResult> PerfrormDrawings(List<Participant> Participants)
