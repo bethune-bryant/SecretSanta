@@ -2,16 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Net;
 using System.Net.Mail;
-using System.Net.Mime;
-using System.Threading;
-using System.IO;
+using System.Text;
+using System.Windows.Forms;
 
 namespace SecretSanta
 {
@@ -27,7 +23,7 @@ namespace SecretSanta
 
                 this.lblStatus.Text = participantFileName + " loaded.";
             }
-            DrawingResult.rand = new Random(seed);
+            DrawingResult.Seed = seed;
             this.lblStatus.Text += " Seed: " + seed;
             this.txtEmail.Text = gmail;
             this.txtPassword.Text = password;
@@ -179,7 +175,7 @@ namespace SecretSanta
 
     public class DrawingResult
     {
-        public static Random rand = new Random();
+        public static int Seed { get; set; }
 
         public Participant Giver { get; set; }
         public Participant Receiver { get; set; }
@@ -207,13 +203,16 @@ namespace SecretSanta
                     Environment.NewLine +
                     Environment.NewLine +
                     "P.S. If you'd like to see the code that performed this drawing, you can see it here:" + Environment.NewLine +
-                    @"https://github.com/bethune-bryant/SecretSanta/blob/master/SecretSanta/SecretSanta/Form1.cs";
+                    @"https://github.com/bethune-bryant/SecretSanta/blob/master/SecretSanta/SecretSanta/Form1.cs" + Environment.NewLine +
+                    "Drawing Seed: " + Seed.ToString();
             }
         }
 
         public static List<DrawingResult> PerfrormDrawings(List<Participant> Participants)
         {
             if (Participants.Count <= 2) throw new ArgumentException("At least 3 participants are needed for a drawing.");
+
+            Random rand = new Random(Seed);
 
             List<DrawingResult> retval = new List<DrawingResult>(Participants.Count);
 
