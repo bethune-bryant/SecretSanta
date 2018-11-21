@@ -84,13 +84,21 @@ namespace SecretSanta
             lblStatus.Text = "Sending to " + toEmail;
         }
 
+        List<Participant> ParsedParticipants
+        {
+            get
+            {
+                return Participant.ParseParticipants(txtParticipants.Text);
+            }
+        }
+
         private void runToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
                 if (DialogResult.Yes == MessageBox.Show("Perform a drawing and send the emails?", "Email Confirmation?", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
                 {
-                    List<DrawingResult> results = DrawingResult.PerfrormDrawings(Participant.ParseParticipants(txtParticipants.Text));
+                    List<DrawingResult> results = DrawingResult.PerfrormDrawings(ParsedParticipants);
                     sent = 0;
                     toSend = results.Count;
                     foreach (DrawingResult result in results)
@@ -122,6 +130,48 @@ namespace SecretSanta
                 MessageBox.Show(exc.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
             }
         }
+
+        private void sendUpdateTOToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string target = Microsoft.VisualBasic.Interaction.InputBox("Who would you like to send an update to?", "Send an update TO?").Trim();
+            List<Participant> matches =  ParsedParticipants.Where(x => x.Name == target || x.Email == target)
+                                                           .ToList();
+
+            if(matches.Count > 1) MessageBox.Show("Input matches more than one person.", "Multiple Matches!", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            else if (matches.Count < 1) MessageBox.Show("Input matches no person.", "No Matches!", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            else
+            {
+                string message = "Send an update email to " + matches[0].Name + "?";
+                if (DialogResult.Yes == MessageBox.Show(message, "Email Confirmation?", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
+                {
+                    sent = 0;
+                    toSend = 1;
+                    DrawingResult result = DrawingResult.PerfrormDrawings(ParsedParticipants).Where(x => x.Giver.Equals(matches[0])).ToList()[0];
+                    SendGmail(txtEmail.Text, txtPassword.Text, result.Giver.Email, "Secret Santa " + DateTime.Now.Year.ToString(), result.PrepareMessage(txtMessage.Text, txtEmail.Text));
+                }
+            }
+        }
+
+        private void sendUpdateFROMToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string target = Microsoft.VisualBasic.Interaction.InputBox("Who would you like to send an update from?", "Send an update FROM?").Trim();
+            List<Participant> matches = ParsedParticipants.Where(x => x.Name == target || x.Email == target)
+                                                           .ToList();
+
+            if (matches.Count > 1) MessageBox.Show("Input matches more than one person.", "Multiple Matches!", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            else if (matches.Count < 1) MessageBox.Show("Input matches no person.", "No Matches!", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+            else
+            {
+                string message = "Send an update email from " + matches[0].Name + "?";
+                if (DialogResult.Yes == MessageBox.Show(message, "Email Confirmation?", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
+                {
+                    sent = 0;
+                    toSend = 1;
+                    DrawingResult result = DrawingResult.PerfrormDrawings(ParsedParticipants).Where(x => x.Receiver.Equals(matches[0])).ToList()[0];
+                    SendGmail(txtEmail.Text, txtPassword.Text, result.Giver.Email, "Secret Santa " + DateTime.Now.Year.ToString(), result.PrepareMessage(txtMessage.Text, txtEmail.Text));
+                }
+            }
+        }
     }
 
     public class Participant
@@ -146,10 +196,10 @@ namespace SecretSanta
         public Participant(string Entry)
         {
             List<string> info = new List<string>(Entry.Split(",".ToCharArray()));
-            this.Name = info[0];
-            this.Email = info[1];
-            this.Wishlist = info.Count > 2 ? info[2] : "";
-            this.Group = info.Count > 3 ? info[3] : "";
+            this.Name = info[0].Trim();
+            this.Email = info[1].Trim();
+            this.Wishlist = info.Count > 2 ? info[2].Trim() : "";
+            this.Group = info.Count > 3 ? info[3].Trim() : "";
         }
 
         public override int GetHashCode()
@@ -206,7 +256,8 @@ namespace SecretSanta
                                      .ToList();
                 retval.Add(new DrawingResult(Participants[Participants.Count - 1], Participants[0]));
 
-                success = retval.Where(drawing => drawing.Giver.Group == drawing.Receiver.Group).Count() == 0;
+                success = retval.Where(drawing => drawing.Giver.Group.Length > 0 && drawing.Giver.Group == drawing.Receiver.Group)
+                                .Count() == 0;
 
                 if (count > 10000) throw new Exception("After 10000 tries, no valid drawing was found.");
             }

@@ -45,6 +45,9 @@
             this.groupMessage = new System.Windows.Forms.GroupBox();
             this.txtMessage = new System.Windows.Forms.RichTextBox();
             this.groupParticipants = new System.Windows.Forms.GroupBox();
+            this.updatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sendUpdateTOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sendUpdateFROMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -118,7 +121,8 @@
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.runToolStripMenuItem,
-            this.testToolStripMenuItem});
+            this.testToolStripMenuItem,
+            this.updatesToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(637, 24);
@@ -246,6 +250,29 @@
             this.groupParticipants.TabStop = false;
             this.groupParticipants.Text = "Participants";
             // 
+            // updatesToolStripMenuItem
+            // 
+            this.updatesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sendUpdateTOToolStripMenuItem,
+            this.sendUpdateFROMToolStripMenuItem});
+            this.updatesToolStripMenuItem.Name = "updatesToolStripMenuItem";
+            this.updatesToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
+            this.updatesToolStripMenuItem.Text = "Updates";
+            // 
+            // sendUpdateTOToolStripMenuItem
+            // 
+            this.sendUpdateTOToolStripMenuItem.Name = "sendUpdateTOToolStripMenuItem";
+            this.sendUpdateTOToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sendUpdateTOToolStripMenuItem.Text = "Send Update TO";
+            this.sendUpdateTOToolStripMenuItem.Click += new System.EventHandler(this.sendUpdateTOToolStripMenuItem_Click);
+            // 
+            // sendUpdateFROMToolStripMenuItem
+            // 
+            this.sendUpdateFROMToolStripMenuItem.Name = "sendUpdateFROMToolStripMenuItem";
+            this.sendUpdateFROMToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sendUpdateFROMToolStripMenuItem.Text = "Send Update FROM";
+            this.sendUpdateFROMToolStripMenuItem.Click += new System.EventHandler(this.sendUpdateFROMToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -302,6 +329,9 @@
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.GroupBox groupMessage;
         private System.Windows.Forms.RichTextBox txtMessage;
+        private System.Windows.Forms.ToolStripMenuItem updatesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sendUpdateTOToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sendUpdateFROMToolStripMenuItem;
     }
 }
 
