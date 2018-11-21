@@ -201,30 +201,14 @@ namespace SecretSanta
             {
                 count++;
                 Participants.Shuffle(rand);
-                retval = new List<DrawingResult>(Participants.Count);
-                List<Participant> NameHat = new List<Participant>(Participants);
-                NameHat.Shuffle(rand);
+                retval = Participants.Where((x, i) => i < Participants.Count - 1)
+                                     .Select((giver, i) => new DrawingResult(giver, Participants[i + 1]))
+                                     .ToList();
+                retval.Add(new DrawingResult(Participants[Participants.Count - 1], Participants[0]));
 
-                foreach (Participant drawer in Participants)
-                {
-                    if (NameHat.Count == 1 && NameHat[0].Equals(drawer))
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        List<Participant> possibles = NameHat.Where(x => !x.Equals(drawer))
-                                                             .Where(possible => retval.Where(alreadyDrawn => alreadyDrawn.Giver.Equals(possible) && alreadyDrawn.Receiver.Equals(drawer)).Count() == 0) //Prevent 2 person cycles.
-                                                             .Where(possible => drawer.Group.Length == 0 || !drawer.Group.Equals(possible.Group)) //Prevent drawing from the same group.
-                                                             .ToList();
-                        if (possibles.Count == 0) break;
+                success = retval.Where(drawing => drawing.Giver.Group == drawing.Receiver.Group).Count() == 0;
 
-                        retval.Add(new DrawingResult(drawer, possibles[rand.Next(0, possibles.Count)]));
-                        NameHat.Remove(retval[retval.Count - 1].Receiver);
-                    }
-                }
-                if (NameHat.Count <= 0) success = true;
-                else if (count > 100) throw new Exception("After 100 tries, no valid drawing was found.");
+                if (count > 10000) throw new Exception("After 10000 tries, no valid drawing was found.");
             }
 
 
